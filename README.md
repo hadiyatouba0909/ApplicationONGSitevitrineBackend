@@ -221,6 +221,104 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 
 ---
 
+## Déploiement en production
+
+### Stack de production
+| Service | Rôle | URL |
+|---|---|---|
+| **Render** | Backend Node.js/Express | `https://applicationongsitevitrinebackend.onrender.com` |
+| **Neon** | Base de données PostgreSQL | [neon.tech](https://neon.tech) |
+| **Vercel** | Frontend Next.js | `https://votre-app.vercel.app` |
+
+---
+
+### 1. Base de données — Neon
+
+1. Créer un compte sur [neon.tech](https://neon.tech) → **New Project**
+2. Copier la **Connection string** (format `postgresql://user:pass@host/db?sslmode=require`)
+3. Dans l'onglet **SQL Editor** de Neon, exécuter le contenu de `backend/database/init.sql`
+
+---
+
+### 2. Backend — Render
+
+1. [render.com](https://render.com) → **New → Web Service** → connecter le repo GitHub
+2. Paramètres :
+
+   | Champ | Valeur |
+   |---|---|
+   | **Root Directory** | `backend` |
+   | **Build Command** | `npm install && npm run build` |
+   | **Start Command** | `npm start` |
+
+3. Variables d'environnement à ajouter :
+
+   | Clé | Valeur |
+   |---|---|
+   | `DATABASE_URL` | Connection string Neon |
+   | `NODE_ENV` | `production` |
+   | `JWT_SECRET` | Chaîne aléatoire longue (min. 32 chars) |
+   | `JWT_EXPIRES_IN` | `7d` |
+   | `ADMIN_EMAIL` | Email de l'admin |
+   | `ADMIN_PASSWORD` | Mot de passe admin |
+   | `FRONTEND_URL` | URL Vercel *(à remplir après déploiement Vercel)* |
+
+---
+
+### 3. Frontend — Vercel
+
+1. [vercel.com](https://vercel.com) → **Add New Project** → importer le même repo
+2. Paramètres :
+
+   | Champ | Valeur |
+   |---|---|
+   | **Root Directory** | `frontend` |
+   | Framework | Next.js (auto-détecté) |
+
+3. Variable d'environnement :
+
+   | Clé | Valeur |
+   |---|---|
+   | `NEXT_PUBLIC_API_URL` | `https://applicationongsitevitrinebackend.onrender.com/api` |
+
+4. Déployer → copier l'URL Vercel obtenue
+
+---
+
+### 4. Finaliser le CORS sur Render
+
+Dans votre service Render → **Environment** → mettre à jour :
+
+```
+FRONTEND_URL=https://votre-app.vercel.app
+```
+
+Render redéploie automatiquement → le site est en ligne.
+
+---
+
+### Variables d'environnement production
+
+#### Backend — Render (variables d'env)
+
+```env
+DATABASE_URL=postgresql://user:pass@host/db?sslmode=require
+NODE_ENV=production
+JWT_SECRET=chaine_aleatoire_tres_longue
+JWT_EXPIRES_IN=7d
+ADMIN_EMAIL=admin@votre-ong.org
+ADMIN_PASSWORD=MotDePasseSecurise@2024!
+FRONTEND_URL=https://votre-app.vercel.app
+```
+
+#### Frontend — Vercel (variables d'env)
+
+```env
+NEXT_PUBLIC_API_URL=https://applicationongsitevitrinebackend.onrender.com/api
+```
+
+---
+
 ## Notes techniques
 
 - La page d'accueil est un **Server Component** Next.js qui fetche directement l'API au moment du rendu.
