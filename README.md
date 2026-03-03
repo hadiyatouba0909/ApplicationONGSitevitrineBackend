@@ -228,7 +228,7 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 |---|---|---|
 | **Render** | Backend Node.js/Express | `https://applicationongsitevitrinebackend.onrender.com` |
 | **Neon** | Base de données PostgreSQL | [neon.tech](https://neon.tech) |
-| **Vercel** | Frontend Next.js | `https://votre-app.vercel.app` |
+| **Vercel** | Frontend Next.js | `https://application-ong-sitevitrine-backend.vercel.app` |
 
 ---
 
@@ -290,10 +290,20 @@ NEXT_PUBLIC_API_URL=http://localhost:5000/api
 Dans votre service Render → **Environment** → mettre à jour :
 
 ```
-FRONTEND_URL=https://votre-app.vercel.app
+FRONTEND_URL=https://application-ong-sitevitrine-backend.vercel.app/
 ```
 
 Render redéploie automatiquement → le site est en ligne.
+
+---
+
+### URLs de production
+
+| Environnement | URL |
+|---|---|
+| **Frontend** | https://application-ong-sitevitrine-backend.vercel.app |
+| **Backend API** | https://applicationongsitevitrinebackend.onrender.com/api |
+| **Admin** | https://application-ong-sitevitrine-backend.vercel.app/admin |
 
 ---
 
@@ -308,13 +318,14 @@ JWT_SECRET=chaine_aleatoire_tres_longue
 JWT_EXPIRES_IN=7d
 ADMIN_EMAIL=admin@votre-ong.org
 ADMIN_PASSWORD=MotDePasseSecurise@2024!
-FRONTEND_URL=https://votre-app.vercel.app
+FRONTEND_URL=https://application-ong-sitevitrine-backend.vercel.app
 ```
 
 #### Frontend — Vercel (variables d'env)
 
 ```env
 NEXT_PUBLIC_API_URL=https://applicationongsitevitrinebackend.onrender.com/api
+
 ```
 
 ---
