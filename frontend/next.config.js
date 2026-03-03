@@ -8,6 +8,12 @@ const nextConfig = {
         port: '5000',
         pathname: '/uploads/**',
       },
+      {
+        // Backend déployé sur Render
+        protocol: 'https',
+        hostname: '**.onrender.com',
+        pathname: '/uploads/**',
+      },
     ],
   },
 };

@@ -26,6 +26,7 @@ const allowedOrigins = [
   'http://localhost:3000',
   'http://localhost:3001',
   'http://localhost:3002',
+  // Vercel : ajouter l'URL de production via FRONTEND_URL dans les variables d'env Render
 ];
 app.use(cors({
   origin: (origin, callback) => {
